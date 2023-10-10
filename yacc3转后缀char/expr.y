@@ -38,10 +38,10 @@ lines   :       lines expr ';' { printf("%s\n", $2); free($2); $2=NULL; }
         |
         ;
 //TODO:完善表达式的规则
-expr    :       expr ADD expr               { $$=strcatall("+",$1,$3); free($1); free($3); $1=$3=NULL; }
-        |       expr MINUS expr             { $$=strcatall("-",$1,$3); free($1); free($3); $1=$3=NULL; }
-        |       expr MULT expr              { $$=strcatall("*",$1,$3); free($1); free($3); $1=$3=NULL; }
-        |       expr DIV expr               { $$=strcatall("/",$1,$3); free($1); free($3); $1=$3=NULL; }
+expr    :       expr ADD expr               { $$=strcatall($1,$3,"+"); free($1); free($3); $1=$3=NULL; }
+        |       expr MINUS expr             { $$=strcatall($1,$3,"-"); free($1); free($3); $1=$3=NULL; }
+        |       expr MULT expr              { $$=strcatall($1,$3,"*"); free($1); free($3); $1=$3=NULL; }
+        |       expr DIV expr               { $$=strcatall($1,$3,"/"); free($1); free($3); $1=$3=NULL; }
         |       LPAREN expr RPAREN          { $$=$2; $2=NULL; }
         |       MINUS expr %prec UMINUS     { $$=strcatall("-",$2,""); free($2); $2=NULL; }
         |       NUMBER                      { $$=$1; $1=NULL; }
